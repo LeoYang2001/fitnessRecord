@@ -177,7 +177,9 @@ const   HomePage = () => {
  
   return (
     <section  className=' w-full h-full flex absolute' style={{backgroundColor: themeColor.backgroundColor}}> 
-        <nav className={`h-full text-white border flex flex-col  text-nowrap  justify-start navBar ${navBar && 'navBar-expended'}`}>
+        {
+            isProfileComplete && (
+                <nav className={`h-full text-white border flex flex-col  text-nowrap  justify-start navBar ${navBar && 'navBar-expended'}`}>
             <header className='welcome-header mb-6  relative justify-center items-center'>
                 <span style={{left:'50%'}} className=' text-lg absolute font-semibold'>Logo</span>
             </header>
@@ -206,6 +208,8 @@ const   HomePage = () => {
                             Sign out</span>
             </footer>
         </nav>
+            )
+        }
         <main className='flex-1 flex flex-col h-full relative '>
                 {/* profileCard Mask */}
                 {
