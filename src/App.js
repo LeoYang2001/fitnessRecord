@@ -1,24 +1,32 @@
-import logo from './logo.svg';
+import { useState } from "react";
+
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+
 import './App.css';
+import SignupPage from "./pages/SignupPage";
+import DailyWeight from "./pages/DailyWeight";
+import DailyDiet from "./pages/DailyDiet";
+import Dashboard from "./pages/Dashboard";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 function App() {
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Routes>
+        <Route path="/home" element={<HomePage />}>
+          <Route index element={<Dashboard />} />
+          <Route path="dailyWeight" element={<DailyWeight />} />
+          <Route path="dailyDiet" element={<DailyDiet />} />
+        </Route>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
+    </LocalizationProvider>
   );
 }
 
