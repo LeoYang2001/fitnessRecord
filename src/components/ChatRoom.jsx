@@ -115,8 +115,8 @@ const ChatRoom = ({roomId}) => {
             <ul className=' flex gap-2'>
             <ProfileImage profileImageUrl={LOCAL_USER.profileImageUrl} imageSize = {32}/>
               {
-                Object.values(members).map((memberInfo) => (
-                  <ProfileImage profileImageUrl={memberInfo.profileImageUrl} imageSize = {32}/>
+                Object.values(members).map((memberInfo, index) => (
+                  <ProfileImage key={index} profileImageUrl={memberInfo.profileImageUrl} imageSize = {32}/>
                 ))
               }
             </ul>
@@ -125,9 +125,6 @@ const ChatRoom = ({roomId}) => {
             <ul>
               {roomInfo.messages?.map((message, index) => (
                 <li key={message.messageId}>
-                  {/* <p><strong>{message.sender}</strong>: {message.content}</p>
-                  {message.picUrl && <img src={message.picUrl} alt="Message Pic" />}
-                  {message.checkIn && <p>Check-in: {message.checkIn}</p>} */}
                   <ChatMessageCell 
                   memberInfo={members[message.sender]}
                   content={message.content}

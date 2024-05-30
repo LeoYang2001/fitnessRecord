@@ -58,8 +58,11 @@ const FitRoom = () => {
     const [roomIds, setRoomIds] = useState([])
     const [roomId, setRoomId] = useState('')
     useEffect(() => {
+       if(LOCAL_USER?.roomIds)
+       {
         setRoomIds(LOCAL_USER.roomIds)
         setRoomId(roomIds[0])
+       }
     }, [LOCAL_USER, roomIds])
     
     
