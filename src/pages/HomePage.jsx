@@ -41,6 +41,11 @@ const   HomePage = () => {
             path:'/home/dailyDiet',
             navName:'Diet',
             ifEnd:false
+        },
+        {
+            path:'/home/fitRoom',
+            navName:'FitRoom',
+            ifEnd:false
         }
     ]
 
@@ -90,6 +95,38 @@ const   HomePage = () => {
          
     }, [navigate,isProfileComplete])
 
+     // Subscribe User Data
+     useEffect(() => {
+        let uid = userId;
+        const fetchUser = async (uid) => {
+            if (!uid) return;
+            const userRef = doc(db, 'users', uid);
+            try {
+               // Subscribe to user document updates
+                const unsubscribe = onSnapshot(userRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        const userData = data || {};
+                        console.log('User data updated:', userData);
+                        dispatch(setLocalUser(userData))
+                    } else {
+                        console.log("No user document!");
+                    }
+                }, (error) => {
+                    console.error("Error subscribing to user data: ", error);
+                });
+
+    
+                return unsubscribe; // Cleanup function to unsubscribe when component unmounts
+            } catch (error) {
+                console.error("Error fetching weight records: ", error);
+            }
+        };
+        const unsubscribe = fetchUser(uid);
+    
+        return () => unsubscribe; 
+    }, [userId, dispatch])
+
     // Fetch Weight Records  
     useEffect(() => {
         let uid = userId;
@@ -103,7 +140,6 @@ const   HomePage = () => {
                         const data = docSnap.data();
                         const records = data.records || {};
                         dispatch(setWeightRecords(records));
-                        console.log(records)
                     } else {
                         console.log("No weight document!");
                         dispatch(setWeightRecords({}));
@@ -166,7 +202,8 @@ const   HomePage = () => {
                 fitnessGoal,
                 startingWeight,
                 profileImageUrl,
-                ifRecordToday: false
+                ifRecordToday: false,
+                roomIds:[]
             });
 
             setIsProfileComplete(true);
